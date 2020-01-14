@@ -1,0 +1,53 @@
+﻿@model GraniteHouse.Models.Appointments
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<h4 class="text-success">Appointment Details</h4>
+
+
+
+<div style="background-color:aliceblue; padding: 0.5%;" class="container border" >
+    <div class="col-12">
+        <div class="row">
+            <div class="col-5">
+                <div class="form-group">
+                    <div class="col-6">
+                        <label asp-for="CustomerName">Name :</label>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" asp-for="CustomerName" readonly disabled/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-6">
+                        <label asp-for="CustomerPhoneNumber">Phone Number :</label>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" asp-for="CustomerPhoneNumber" readonly disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-5">
+                <div class="form-group">
+                    <div class="col-6">
+                        <label asp-for="CustomerEmail">Email :</label>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" asp-for="CustomerEmail" readonly disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-6">
+                        <label asp-for="AppointmentDate">Appointment Date :</label>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" asp-for="AppointmentDate" id="datepicker" readonly disabled/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

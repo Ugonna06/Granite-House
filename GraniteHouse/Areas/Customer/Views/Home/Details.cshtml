@@ -1,0 +1,112 @@
+﻿@model GraniteHouse.Models.Products
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+@using Microsoft.AspNetCore.Http
+@using GraniteHouse.Extensions
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+<br />
+<br />
+
+<div>
+    <h2 class="text-info">Product Details</h2>
+</div>
+
+
+<form method="post">
+    <div class="p-4 border rounded">
+        <div class="row">
+            <input type="hidden" asp-for="Id" />
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Name"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Name" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Price"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Price" asp-format="{0:C}" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="ShadeColor"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="ShadeColor" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="ProductTypes"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="ProductTypes.Name" readonly class="form-control" />
+                    </div>
+                </div>
+                @if (!Model.SpecialTags.Name.Equals("--None--"))
+                {
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="SpecialTags"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="SpecialTags.Name" readonly class="form-control" />
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-8">
+                        @{
+                            bool isInBag = false;
+                            List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
+                            if (lstCart != null && lstCart.Contains(Model.Id))
+                            {
+                                isInBag = true;
+                            }
+                        }
+
+                        @if (isInBag)
+                        {
+                            <button type="submit" value="Remove from Bag" asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger form-control">Remove from Bag</button>
+                        }
+                        else
+                        {
+                            <button type="submit" value="Add to Bag" asp-route-id="@Model.Id" class="btn btn-primary form-control">Add to Bag</button>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-3">
+                <img src="@Model.Image" alt="Alternate Text" width="100%" class="border rounded" />
+                <br />
+                <br />
+                @if (Model.Available)
+                {
+                    <div>
+                        <h4 class="text-success"><i class="fas fa-check-circle"></i> in stock </h4>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <input type="hidden" asp-for="Id" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>

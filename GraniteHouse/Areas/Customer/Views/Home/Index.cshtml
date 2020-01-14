@@ -1,0 +1,57 @@
+﻿@model IEnumerable<GraniteHouse.Models.Products>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<br />
+
+@*My Attempts at coding this on my own, though very impressive i just want to show the guys code below so he doesn't feel left out in the practice
+<div class="row">
+    @foreach (var item in Model)
+    {
+    <div class="col-lg-4 col-md-6 col-sm-12 p-3 ">
+        <div class="text-info border rounded" style="margin-bottom: 0; padding: 3.5%; background-color: #f2eded;"><h5>@item.Name</h5> </div>
+        <div>
+            <img src="@item.Image" alt="image loading" width="100%" class="border" />
+        </div>
+        <div class="row border rounded" style=" margin: 0; padding: 3%; box-sizing: content-box; ">
+            <div class="text-danger  col-8 col-sm-8" ><h6>@String.Format("{0:C}/sq.ft", item.Price)</h6>    </div>
+            <div class="col-2 col-md-2 col-sm-4" style=" margin-left: -13%;  "> <a asp-action="Details" asp-route-id ="@item.Id" class="btn btn-outline-info" >View Details</a></div>
+        </div>
+
+    </div>
+
+
+    }
+
+</div>*@
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+
+        <div class="col-lg-4 col-md-6 col-sm-12 ">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal" >
+                        <label style=" color: steelblue;">@product.Name</label>
+                    </h4>
+                </div>
+
+                <img class="card-img-top" style="height:100;" src="@product.Image" alt="Product Image" />
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <h6 style=" color: #a51313;" > <strong>@String.Format("{0:C}",product.Price)</strong>/sq.ft </h6>
+                        </div>
+                        <a asp-action="Details" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id" >View Details</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    }
+
+</div>
