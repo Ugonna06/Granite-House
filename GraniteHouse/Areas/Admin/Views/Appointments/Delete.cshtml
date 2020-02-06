@@ -1,0 +1,160 @@
+﻿@model GraniteHouse.Models.VIewModel.AppointmentDetailsViewModel
+@using GraniteHouse.Extensions
+@using GraniteHouse.Utility
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<br /> <br />
+
+<h2 class="text-info">Delete Product</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="p-4 border rounded ">
+        <div class="row">
+            <input type="hidden" asp-for="Appointments.Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-6">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Appointments.CustomerName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Appointments.CustomerName" readonly class="form-control" />
+                    </div>
+                    <span asp-validation-for="Appointments.CustomerName" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Appointments.AppointmentDate"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Appointments.AppointmentDate" readonly id="datepicker" type="text" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Appointments.AppointmentDate" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Appointments.AppointmentTime"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Appointments.AppointmentTime" readonly id="timepicker" type="text" class="timepicker form-control" />
+                    </div>
+                    <span asp-validation-for="Appointments.AppointmentTime" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Appointments.CustomerPhoneNumber"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Appointments.CustomerPhoneNumber" readonly class="form-control" />
+                    </div>
+                    <span asp-validation-for="Appointments.CustomerPhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Appointments.CustomerEmail"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Appointments.CustomerEmail" readonly class="form-control" />
+                    </div>
+                    <span asp-validation-for="Appointments.CustomerEmail"  class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="SalesPerson"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Appointments.SalesPerson.Name" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Appointments.IsConfirmed"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Appointments.IsConfirmed" readonly class="form-control" type="checkbox" />
+                    </div>
+                    <span asp-validation-for="Appointments.IsConfirmed" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <table class="table table-striped border">
+                    <tr class="table-info">
+                        <th style="text-align:center; width:20%"></th>
+                        <th style="text-align:center">
+                            <label asp-for="Products.FirstOrDefault().Name"></label>
+                        </th>
+                        <th style="text-align:center">
+                            <label asp-for="Products.FirstOrDefault().Price"></label>
+                        </th>
+                        <th style="text-align:center">
+                            <label asp-for="Products.FirstOrDefault().ShadeColor"></label>
+                        </th>
+                        <th style="text-align:center">
+                            <label asp-for="Products.FirstOrDefault().ProductTypes"></label>
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.Products)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-area="Customer" asp-controller="Home" asp-action="Details" asp-route-id="item.Id">
+                                    <img src="@item.Image" width="100%" style=" display:block; margin:auto; border-radius: 5px; border: 1px solid #bbb9b9;" />
+                                </a>
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(m => item.Name)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(m => item.Price)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(m => item.ShadeColor)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(m => item.ProductTypes.Name)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group ">
+            <input type="submit" class="btn btn-danger" value="Delete" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(document).ready(function () {
+            //this is the function that seperates the time from the date for the display
+            let appointmentTime = document.getElementById('datepicker').value;
+            let splitData = "";
+            if (appointmentTime.indexOf(" ") > 0) {
+                splitData = appointmentTime.split(" ");
+            } else {
+                splitData = appointmentTime("T")
+            }
+            //the splitData arrays are into 3 containing the date and time and am/pm
+            let splitTime = splitData[1].substring(0, 5);
+            let time = "";
+            if (splitTime.slice(-1) == ":") { //there appears to be an issue of double and single time eg. 12 and 1... this if statement checks for this indiscretion
+                time = splitTime.substring(0, splitTime.length - 1);
+            } else {
+                time = splitTime;
+            }
+            let amPmtime = splitData[2];
+            $('#datepicker').attr('value', splitData[0]) //this replaces the value of the date from the db
+            $('#timepicker').attr('value', time + ' ' + amPmtime);// this replaces the value of the time in the view
+
+        })
+    </script>
+}

@@ -22,7 +22,7 @@ namespace GraniteHouse.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            return View(_db.ApplicationUsers.ToList());
+            return View(_db.ApplicationUser.ToList());
         }
 
         //Get Action for Edit admin users
@@ -33,7 +33,7 @@ namespace GraniteHouse.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var userFromDb = await _db.ApplicationUsers.FindAsync(id);
+            var userFromDb = await _db.ApplicationUser.FindAsync(id);
 
             if (userFromDb == null)
             {
@@ -55,7 +55,7 @@ namespace GraniteHouse.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                ApplicationUser userFromDb =  _db.ApplicationUsers.Where(m => m.Id == id).FirstOrDefault();
+                ApplicationUser userFromDb =  _db.ApplicationUser.Where(m => m.Id == id).FirstOrDefault();
                 userFromDb.Name = applicationUser.Name;
                 userFromDb.PhoneNumber = applicationUser.PhoneNumber;
 
@@ -74,7 +74,7 @@ namespace GraniteHouse.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var userFromDb = await _db.ApplicationUsers.FindAsync(id);
+            var userFromDb = await _db.ApplicationUser.FindAsync(id);
 
             if (userFromDb == null)
             {
@@ -94,7 +94,7 @@ namespace GraniteHouse.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ApplicationUser userFromDb = _db.ApplicationUsers.Where(m => m.Id == id).FirstOrDefault();
+            ApplicationUser userFromDb = _db.ApplicationUser.Where(m => m.Id == id).FirstOrDefault();
 
             if (userFromDb == null)
             {

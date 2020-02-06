@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace GraniteHouse.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = SD.AdminEndUser)]
+    [Authorize(Roles = SD.SuperAdminEndUser)]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -85,15 +85,6 @@ namespace GraniteHouse.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    if (!await _roleManager.RoleExistsAsync(SD.AdminEndUser))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.AdminEndUser));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(SD.SuperAdminEndUser))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.SuperAdminEndUser));
-                    }
-
                     if (Input.IsSuperAdmin)
                     {
                         await _userManager.AddToRoleAsync(user, SD.SuperAdminEndUser);
